@@ -1,8 +1,8 @@
 // Replace with your contract's deployed address
-const contractAddress = "0xYourContractAddress";
+const contractAddress = "0xD7ACd2a9FD159E69Bb102A1ca21C9a3e3A5F771B";
 
 // Replace with your contract's ABI
-const abi = [
+const abi = [ /* ... */ ];
   {
     "inputs": [
       {

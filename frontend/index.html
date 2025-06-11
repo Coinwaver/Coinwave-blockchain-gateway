@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CoinWave Payment</title>
+</head>
+<body>
+  <h1>Pay with Ethereum</h1>
+  <input type="text" id="orderId" placeholder="Order ID">
+  <input type="number" id="amount" placeholder="Amount in ETH">
+  <button onclick="makePayment()">Pay</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
+// Note: replace with your contract address and ABI
+const contractAddress = "YOUR_DEPLOYED_CONTRACT_ADDRESS";
+const abi = [/* ... ABI ... */];
+
+async function makePayment() {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  await provider.send("eth_requestAccounts", []);
+  const signer = provider.getSigner();
+  const contract = new ethers.Contract(contractAddress, abi, signer);
+
+  const orderId = document.getElementById("orderId").value;
+  const amount = ethers.utils.parseEther(document.getElementById("amount").value);
+
+  try {
+    const tx = await contract.pay(orderId, { value: amount });
+    await tx.wait();
+    alert("Payment successful!");
+  } catch (err) {
+    alert("Payment failed: " + err.message);
+  }
+}
